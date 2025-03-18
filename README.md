@@ -1,6 +1,6 @@
 # Metrytics Web Client
 
-This project is a simple pnpm package used for sending analytics data such as IP address, operating system, browser, and referrer information to a server. It is intended for use with the Metrytics Dashboard - which has an inbuilt server to receive the data.
+This project is a simple pnpm package used for sending analytics data such as IP address, operating system, browser, and referrer information to a server. It is designed to work with the [Metrytics Dashboard](https://github.com/Pum8i/metrytics-dashboard) - which includes a dedicated server for collecting and processing the analytics data.
 
 ## Installation
 
