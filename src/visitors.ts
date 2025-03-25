@@ -1,5 +1,5 @@
 import { Analytics } from "./analytics";
-import { VisitorData } from "./types";
+import { IExtras, VisitorData } from "./types";
 import { getBrowserInfo, getOSInfo } from "./utils/browser";
 
 export class Visitors extends Analytics {
@@ -22,7 +22,7 @@ export class Visitors extends Analytics {
     userAgent: string,
     referrer: string,
     page: string,
-    timestamp = new Date()
+    extras?: IExtras
   ): void {
     const analyticsData: VisitorData = {
       appName,
@@ -30,13 +30,13 @@ export class Visitors extends Analytics {
       os: getOSInfo(userAgent),
       referrer: referrer,
       ipAddress: ipAddress,
-      timestamp,
       page,
+      timestamp: extras?.timestamp ?? new Date(),
     };
-    this.sendVisitorData(analyticsData);
+    this.sendVisitorData(analyticsData, extras?.extraHeaders ?? {});
   }
 
-  private sendVisitorData(data: VisitorData): void {
+  private sendVisitorData(data: VisitorData, extraHeaders: {}): void {
     if (!this.serverUrl || !this.apiKey) {
       return console.error(
         "Metrytics hasn't been initialized yet. Make sure to call initialize() before using."
@@ -49,6 +49,7 @@ export class Visitors extends Analytics {
         Accept: "application/json",
         "Content-Type": "application/json",
         "x-api-key": this.apiKey ?? "",
+        ...extraHeaders,
       },
       body: JSON.stringify(data),
     })

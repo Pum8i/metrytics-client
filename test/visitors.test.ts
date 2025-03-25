@@ -78,20 +78,25 @@ describe("Visitors", () => {
       userAgent: "test-agent",
       referrer: "http://referrer.com",
       page: "/test-page",
+      extras: {
+        timestamp: new Date("2024-01-01"),
+        extraHeaders: { "Custom-Header": "test" },
+      },
     };
 
     beforeEach(() => {
       initialize(testConfig);
     });
 
-    it("should send visitor data with correct parameters", () => {
+    it("should send visitor data with correct parameters and extras", () => {
       const visitors = Visitors.getInstance();
       visitors.trackVisitor(
         testData.appName,
         testData.ipAddress,
         testData.userAgent,
         testData.referrer,
-        testData.page
+        testData.page,
+        testData.extras
       );
 
       expect(getBrowserInfo).toHaveBeenCalledWith(testData.userAgent);
@@ -104,6 +109,7 @@ describe("Visitors", () => {
             Accept: "application/json",
             "Content-Type": "application/json",
             "x-api-key": testConfig.apiKey,
+            "Custom-Header": "test",
           },
           body: expect.any(String),
         })
@@ -117,8 +123,41 @@ describe("Visitors", () => {
         referrer: testData.referrer,
         ipAddress: testData.ipAddress,
         page: testData.page,
+        timestamp: testData.extras.timestamp.toISOString(),
+      });
+    });
+
+    it("should use default values when extras are not provided", () => {
+      const visitors = Visitors.getInstance();
+      visitors.trackVisitor(
+        testData.appName,
+        testData.ipAddress,
+        testData.userAgent,
+        testData.referrer,
+        testData.page
+      );
+
+      const callBody = JSON.parse((fetch as jest.Mock).mock.calls[0][1].body);
+      expect(callBody).toEqual({
+        appName: testData.appName,
+        browser: "Chrome",
+        os: "Windows",
+        referrer: testData.referrer,
+        ipAddress: testData.ipAddress,
+        page: testData.page,
         timestamp: expect.any(String),
       });
+
+      expect(fetch).toHaveBeenCalledWith(
+        `${testConfig.serverUrl}/analytics`,
+        expect.objectContaining({
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "x-api-key": testConfig.apiKey,
+          },
+        })
+      );
     });
 
     it("should handle non-ok responses", async () => {

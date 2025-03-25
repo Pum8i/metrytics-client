@@ -11,3 +11,7 @@ export interface VisitorData {
   timestamp: Date;
   page: string;
 }
+export interface IExtras {
+  timestamp?: Date;
+  extraHeaders?: {};
+}
