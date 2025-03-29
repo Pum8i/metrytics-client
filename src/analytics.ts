@@ -1,26 +1,46 @@
-import { AnalyticsConfig } from "./types";
+export abstract class Analytics {
+  protected baseUrl: string;
+  protected apiKey: string;
 
-export class Analytics {
-  private static config: AnalyticsConfig;
+  protected constructor(url: string, apiKey: string) {
+    this.baseUrl = url;
+    this.apiKey = apiKey;
+  }
 
-  protected constructor() {}
+  protected async makeRequest(
+    endpoint: string,
+    body: object = {},
+    extraHeaders = {}
+  ) {
+    const headers = {
+      "Content-Type": "application/json",
+      "x-api-key": this.apiKey,
+      ...extraHeaders,
+    };
 
-  protected static getConfig(): AnalyticsConfig {
-    if (!Analytics.config) {
-      console.error("Analytics not initialized. Call initialize() first");
+    const config: RequestInit = {
+      method: "POST",
+      headers,
+      ...(body && { body: JSON.stringify(body) }),
+    };
+
+    try {
+      const response = await fetch(
+        `${this.baseUrl}/api/analytics${endpoint}`,
+        config
+      );
+
+      if (!response.ok) {
+        const errorBody = await response.text();
+        throw new Error(
+          `HTTP error! status: ${response.status}, message: ${errorBody}`
+        );
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("API request failed:", error);
+      throw error;
     }
-    return Analytics.config;
-  }
-
-  public static initialize(config: AnalyticsConfig): void {
-    Analytics.config = config;
-  }
-
-  protected get serverUrl(): string {
-    return Analytics.getConfig()?.serverUrl;
-  }
-
-  protected get apiKey(): string {
-    return Analytics.getConfig()?.apiKey;
   }
 }
