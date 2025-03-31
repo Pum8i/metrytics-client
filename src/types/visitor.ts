@@ -3,7 +3,7 @@ export interface IVisitor {
   page: string;
 }
 export interface IVisitorExtras {
-  ipAddress?: string;
+  ip?: string;
   browser?: string;
   city?: string;
   country?: string;

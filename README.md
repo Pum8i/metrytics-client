@@ -35,7 +35,7 @@ MetryticsClient.visitors.trackVisitor.trackVisitor(
   "/home", // current page
   {
     // optional extras
-    ipAddress: "123.456.1.1",
+    ip: "123.456.1.1",
     browser: "Chrome",
     city: "New York",
     country: "United States",
@@ -55,7 +55,7 @@ MetryticsClient.visitors.trackVisitor.trackVisitor(
 - `appName` (string): The name of your application
 - `page` (string): The current page path or identifier
 - `extras` (optional: IVisitorExtras): Additional data and configuration
-  - `ipAddress` (optional: string): Visitor's IP address
+  - `ip` (optional: string): Visitor's IP address
   - `browser` (optional: string): Visitor's browser information
   - `city` (optional: string): Visitor's city location
   - `country` (optional: string): Visitor's country location

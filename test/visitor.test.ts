@@ -28,7 +28,7 @@ describe("Visitor", () => {
       );
     });
 
-    it("should properly initialize the analytics system", () => {
+    it("should properly initialize with apiKey", () => {
       MetryticsClient.initialize(testConfig.url, testConfig.apiKey);
       const visitors = MetryticsClient.visitors;
       expect(visitors).toBeInstanceOf(Visitor);
@@ -40,7 +40,7 @@ describe("Visitor", () => {
       appName: "test-app",
       page: "/test-page",
       extras: {
-        ipAddress: "127.0.0.1",
+        ip: "127.0.0.1",
         browser: "Chrome",
         os: "Windows",
         referrer: "http://referrer.com",
@@ -80,7 +80,7 @@ describe("Visitor", () => {
       expect(callBody).toEqual({
         appName: testData.appName,
         page: testData.page,
-        ipAddress: testData.extras.ipAddress,
+        ip: testData.extras.ip,
         browser: testData.extras.browser,
         os: testData.extras.os,
         referrer: testData.extras.referrer,
