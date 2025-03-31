@@ -27,17 +27,42 @@ initialize({
 });
 ```
 
-Now you can track visitor data:
+To track visitors to your application, use the `trackVisitor` method:
 
 ```typescript
-analytics.trackVisitor(
-  "your-app-name", // App Name
-  "127.0.0.1", // IP Address
-  navigator.userAgent, // User Agent
-  document.referrer, // Referrer
-  window.location.pathname // Current Page
+MetryticsClient.visitors.trackVisitor.trackVisitor(
+  "MyApp", // application name
+  "/home", // current page
+  {
+    // optional extras
+    ipAddress: "123.456.1.1",
+    browser: "Chrome",
+    city: "New York",
+    country: "United States",
+    os: "Windows 11",
+    referrer: "https://google.com",
+    timestamp: "2025-03-29 21:31:39.35",
+    extraHeaders: {
+      // optional additional headers
+      "Custom-Header": "value",
+    },
+  }
 );
 ```
+
+### Parameters
+
+- `appName` (string): The name of your application
+- `page` (string): The current page path or identifier
+- `extras` (optional: IVisitorExtras): Additional data and configuration
+  - `ipAddress` (optional: string): Visitor's IP address
+  - `browser` (optional: string): Visitor's browser information
+  - `city` (optional: string): Visitor's city location
+  - `country` (optional: string): Visitor's country location
+  - `extraHeaders` (optional: object): Custom headers to include in the request
+  - `os` (optional: string): Visitor's operating system
+  - `referrer` (optional: string): The referring URL
+  - `timestamp` (optional: Date): Time of the visit
 
 ## API Reference
 
