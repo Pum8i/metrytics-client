@@ -1,6 +1,6 @@
 # Metrytics Web Client
 
-This project is a simple pnpm package used for sending analytics data such as IP address, operating system, browser, and referrer information to a server. It is designed to work with the [Metrytics Dashboard](https://github.com/Pum8i/metrytics-dashboard) - which includes a dedicated server for collecting and processing the analytics data.
+The Metrytics Web Client is a lightweight npm package that collects and sends website analytics data to a Metrytics server. It tracks visitor information, including IP address, operating system, browser, referring URL, and page views. This client is designed to work seamlessly with the [Metrytics Dashboard](https://github.com/Pum8i/metrytics-dashboard), which provides a server and dashboard for managing and visualizing the collected data.
 
 ## Installation
 
