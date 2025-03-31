@@ -16,6 +16,18 @@ export class MetryticsClient {
   }
 
   public static initialize(url: string, apiKey: string): MetryticsClient {
+    if (!url || typeof url !== "string") {
+      throw new Error(
+        "A valid server URL is required to initialize MetryticsClient"
+      );
+    }
+
+    if (!apiKey || typeof apiKey !== "string") {
+      throw new Error(
+        "A valid API key is required to initialize MetryticsClient"
+      );
+    }
+
     if (!this.instance) {
       this.instance = new MetryticsClient(url, apiKey);
 
