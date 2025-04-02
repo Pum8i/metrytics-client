@@ -1,6 +1,6 @@
 {
   "name": "metrytics-client",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "A simple npm package for sending analytics data to the Metrytics dashboard.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

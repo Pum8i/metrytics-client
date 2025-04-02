@@ -1,5 +1,5 @@
 import { Analytics } from "./analytics";
-import { IVisitor, IVisitorExtras } from "./types/visitor";
+import { IVisitor, IVisitorExtras } from "./types/visitors";
 
 export class Visitor extends Analytics {
   private static instance: Visitor | null = null;
@@ -36,6 +36,6 @@ export class Visitor extends Analytics {
       page,
       ...extras,
     };
-    return this.makeRequest("/visitor", visitorData, extraHeaders);
+    return this.makeRequest("/visitors", visitorData, extraHeaders);
   }
 }

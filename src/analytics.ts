@@ -33,13 +33,13 @@ export abstract class Analytics {
       if (!response.ok) {
         const errorBody = await response.text();
         throw new Error(
-          `HTTP error! status: ${response.status}, message: ${errorBody}`
+          `Metrytics - makeRequest API call failed, status: ${response.status}, message: ${errorBody}`
         );
       }
 
       return await response.json();
     } catch (error) {
-      console.error("API request failed:", error);
+      console.error("Metrytics - makeRequest API call failed:", error);
       throw error;
     }
   }

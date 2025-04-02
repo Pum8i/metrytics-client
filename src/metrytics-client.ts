@@ -1,5 +1,5 @@
-import { Visitor } from "./visitor";
-// import { Events } from './events';
+import { Visitor } from "./visitors";
+import { Event } from "./events";
 
 export class MetryticsClient {
   private static instance: MetryticsClient | null = null;
@@ -8,7 +8,7 @@ export class MetryticsClient {
 
   // Static references to child clients
   private static visitorsClient: Visitor | null = null;
-  // private static eventsClient: Events | null = null;
+  private static eventsClient: Event | null = null;
 
   private constructor(url: string, apiKey: string) {
     this.baseUrl = url;
@@ -33,7 +33,7 @@ export class MetryticsClient {
 
       // Initialize child clients
       this.visitorsClient = Visitor.initialize(url, apiKey);
-      // this.eventsClient = Events.initialize(url, apiKey);
+      this.eventsClient = Event.initialize(url, apiKey);
     }
     return this.instance;
   }
@@ -55,10 +55,10 @@ export class MetryticsClient {
     return this.visitorsClient;
   }
 
-  // public static get events(): Events {
-  //   if (!this.eventsClient) {
-  //     throw new Error('Events client not initialized. Call MetryticsClient.initialize() first.');
-  //   }
-  //   return this.eventsClient;
-  // }
+  public static get events(): Event {
+    if (!this.eventsClient) {
+      throw new Error('Events client not initialized. Call MetryticsClient.initialize() first.');
+    }
+    return this.eventsClient;
+  }
 }

@@ -2,6 +2,7 @@ export interface IVisitor {
   appName: string;
   page: string;
 }
+
 export interface IVisitorExtras {
   ip?: string;
   browser?: string;
