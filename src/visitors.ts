@@ -28,7 +28,7 @@ export class Visitor extends Analytics {
     appName: string,
     page: string,
     extras?: IVisitorExtras
-  ): Promise<void> {
+  ): Promise<Response> {
     const { extraHeaders } = extras || {};
     delete extras?.extraHeaders;
     const visitorData: IVisitor = {
@@ -36,6 +36,6 @@ export class Visitor extends Analytics {
       page,
       ...extras,
     };
-    return this.makeRequest("/visitors", visitorData, extraHeaders);
+    return await this.makeRequest("/visitors", visitorData, extraHeaders);
   }
 }

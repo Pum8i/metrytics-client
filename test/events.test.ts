@@ -16,6 +16,8 @@ describe("Event", () => {
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: () => Promise.resolve({ message: "POST request received" }),
+      status: 200,
+      statusText: "OK",
     });
   });
 
@@ -51,7 +53,7 @@ describe("Event", () => {
 
     it("should send event data with correct parameters and data", async () => {
       const events = MetryticsClient.events;
-      await events.trackEvent(
+      const response = await events.trackEvent(
         testData.appName,
         testData.eventName,
         testData.eventData
@@ -78,11 +80,16 @@ describe("Event", () => {
         ip: testData.eventData.ip,
         timestamp: testData.eventData.timestamp?.toISOString(),
       });
+      expect(response.ok).toBe(true);
+      expect(response.status).toBe(200);
     });
 
     it("should send event data with default values when eventData is not provided", async () => {
       const events = MetryticsClient.events;
-      await events.trackEvent(testData.appName, testData.eventName);
+      const response = await events.trackEvent(
+        testData.appName,
+        testData.eventName
+      );
 
       const callBody = JSON.parse((fetch as jest.Mock).mock.calls[0][1].body);
       expect(callBody).toEqual({
@@ -99,6 +106,8 @@ describe("Event", () => {
           },
         })
       );
+      expect(response.ok).toBe(true);
+      expect(response.status).toBe(200);
     });
 
     it("should handle non-ok responses", async () => {

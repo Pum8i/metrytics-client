@@ -11,7 +11,7 @@ export abstract class Analytics {
     endpoint: string,
     body: object = {},
     extraHeaders = {}
-  ) {
+  ): Promise<Response> {
     const headers = {
       "Content-Type": "application/json",
       "x-api-key": this.apiKey,
@@ -37,7 +37,7 @@ export abstract class Analytics {
         );
       }
 
-      return await response.json();
+      return response;
     } catch (error) {
       console.error("Metrytics - makeRequest API call failed:", error);
       throw error;

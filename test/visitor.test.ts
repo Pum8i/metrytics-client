@@ -18,6 +18,8 @@ describe("Visitor", () => {
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: () => Promise.resolve({ message: "POST request received" }),
+      status: 200,
+      statusText: "OK",
     });
   });
 
@@ -57,7 +59,7 @@ describe("Visitor", () => {
 
     it("should send visitor data with correct parameters and extras", async () => {
       const visitors = MetryticsClient.visitors;
-      await visitors.trackVisitor(
+      const response = await visitors.trackVisitor(
         testData.appName,
         testData.page,
         testData.extras
@@ -88,11 +90,16 @@ describe("Visitor", () => {
         city: testData.extras.city,
         country: testData.extras.country,
       });
+      expect(response.ok).toBe(true);
+      expect(response.status).toBe(200);
     });
 
     it("should send visitor data with default values when extras are not provided", async () => {
       const visitors = MetryticsClient.visitors;
-      await visitors.trackVisitor(testData.appName, testData.page);
+      const response = await visitors.trackVisitor(
+        testData.appName,
+        testData.page
+      );
 
       const callBody = JSON.parse((fetch as jest.Mock).mock.calls[0][1].body);
       expect(callBody).toEqual({
@@ -109,6 +116,8 @@ describe("Visitor", () => {
           },
         })
       );
+      expect(response.ok).toBe(true);
+      expect(response.status).toBe(200);
     });
 
     it("should handle non-ok responses", async () => {

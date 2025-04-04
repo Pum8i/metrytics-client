@@ -28,7 +28,7 @@ export class Event extends Analytics {
     appName: string,
     eventName: string,
     extras?: IEventExtras
-  ): Promise<void> {
+  ): Promise<Response> {
     const { extraHeaders } = extras || {};
     delete extras?.extraHeaders;
     const eventData = {
@@ -36,6 +36,6 @@ export class Event extends Analytics {
       eventName,
       ...extras,
     };
-    return this.makeRequest("/events", eventData, extraHeaders);
+    return await this.makeRequest("/events", eventData, extraHeaders);
   }
 }
